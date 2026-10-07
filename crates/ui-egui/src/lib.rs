@@ -30,6 +30,7 @@ macro_rules! tl_ctx {
 
 mod a11y_ui;
 mod actions_ui;
+pub mod ai_ui;
 mod appearance;
 pub mod canvas;
 mod chrome;
@@ -208,6 +209,8 @@ pub enum RightPanel {
     Search,
     /// Compare files: the differences.
     Compare,
+    /// The AI assistant (M13; needs a provider).
+    Assistant,
 }
 
 /// Quick-action bar tools (the vertical floating strip).
@@ -558,6 +561,11 @@ pub struct PdfCraftApp {
     /// How to ask for the latest release (the desktop app sets it; see `updates`).
     pub update_source: Option<updates::UpdateSource>,
     pub(crate) updates: updates::Updates,
+    /// How to send an AI request (the desktop app sets it; see `ai_ui`).
+    pub ai_provider: Option<ai_ui::AiProvider>,
+    /// Preferences ▸ AI assistant (off by default).
+    pub ai_settings: pdfcraft_engine::ai::AiSettings,
+    pub(crate) ai: ai_ui::AiState,
     /// Lists the Print dialog's printers in the background (the desktop app sets it; see
     /// [`PrinterSource`]).
     pub printer_source: Option<PrinterSource>,
@@ -934,6 +942,9 @@ impl PdfCraftApp {
             dialog: None,
             update_source: None,
             updates: updates::Updates::default(),
+            ai_provider: None,
+            ai_settings: Default::default(),
+            ai: Default::default(),
             printer_source: None,
             print_tasks: print_ui::PrintTasks::default(),
             palette_open: false,
@@ -2312,6 +2323,7 @@ impl PdfCraftApp {
         });
         // Set apart: one more key inside the macro above passes serde_json's recursion limit.
         v["redact_prefs"] = self.redact_defaults.to_json();
+        v["ai"] = serde_json::json!(self.ai_settings);
         // Set outside json! above, which is at serde_json's macro recursion limit.
         v["hide_empty_highlight_hover"] = serde_json::Value::Bool(self.comment_prefs.hide_empty_highlight_hover);
         v["organize_zoom"] = serde_json::json!(self.organize_zoom);
@@ -2472,6 +2484,9 @@ impl PdfCraftApp {
         }
         self.custom_stamps = stamps_ui::decode(&v["custom_stamps"]);
         self.custom_actions = actions_ui::decode(&v["actions"]);
+        if let Ok(ai) = serde_json::from_value::<pdfcraft_engine::ai::AiSettings>(v["ai"].clone()) {
+            self.ai_settings = ai.sanitized();
+        }
         if let Some(on) = v["javascript"].as_bool() {
             self.session.set_javascript(on);
         }
@@ -2527,6 +2542,7 @@ impl PdfCraftApp {
                     "tags" => Some(RightPanel::Tags),
                     "search" => Some(RightPanel::Search),
                     "compare" => Some(RightPanel::Compare),
+                    "assistant" => Some(RightPanel::Assistant),
                     "none" => None,
                     other => return Err(format!("unknown panel {other}")),
                 }
@@ -3097,6 +3113,7 @@ impl eframe::App for PdfCraftApp {
             }
         }
         self.poll_updates();
+        self.poll_ai();
         self.poll_print();
         // Shortcuts deferred last frame: the text field has taken that frame's typing since.
         let deferred = std::mem::take(&mut self.deferred_commands);
