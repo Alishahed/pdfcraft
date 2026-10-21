@@ -213,7 +213,8 @@ pub(crate) fn parse(src: &str) -> Vec<Block> {
                 }
                 TagEnd::BlockQuote(_) => {
                     flush(&mut stack, &mut inl);
-                    if let Some(f) = stack.pop()
+                    if stack.len() > 1
+                        && let Some(f) = stack.pop()
                         && let Some(top) = stack.last_mut()
                     {
                         top.blocks.push(Block::Quote(f.blocks));
@@ -226,14 +227,16 @@ pub(crate) fn parse(src: &str) -> Vec<Block> {
                 }
                 TagEnd::Item => {
                     flush(&mut stack, &mut inl);
-                    if let Some(f) = stack.pop()
+                    if stack.len() > 1
+                        && let Some(f) = stack.pop()
                         && let Some(Frame { kind: FrameKind::List(_, items), .. }) = stack.last_mut()
                     {
                         items.push(f.blocks);
                     }
                 }
                 TagEnd::List(_) => {
-                    if let Some(Frame { kind: FrameKind::List(start, items), .. }) = stack.pop()
+                    if stack.len() > 1
+                        && let Some(Frame { kind: FrameKind::List(start, items), .. }) = stack.pop()
                         && let Some(top) = stack.last_mut()
                     {
                         top.blocks.push(Block::List(start, items));
@@ -305,7 +308,7 @@ pub(crate) fn parse(src: &str) -> Vec<Block> {
         }
     }
     flush(&mut stack, &mut inl);
-    stack.swap_remove(0).blocks
+    stack.into_iter().next().map(|f| f.blocks).unwrap_or_default()
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -337,7 +340,7 @@ fn svg_attr_px(svg: &str, attr: &str) -> Option<f32> {
     let head = svg.get(from..)?;
     let head = head.get(..head.find('>')?)?;
     let start = head.find(&format!(" {attr}=\""))? + attr.len() + 3;
-    let rest = &head[start..];
+    let rest = head.get(start..)?;
     let value = rest.get(..rest.find('"')?)?;
     let (num, scale) = match value.strip_suffix("pt") {
         Some(n) => (n, 96.0 / 72.0),

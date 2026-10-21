@@ -356,7 +356,7 @@ pub(crate) fn preferences(ui: &mut egui::Ui, app: &mut PdfCraftApp, t: &Tokens) 
     egui::Frame::new().fill(t.hover).corner_radius(egui::CornerRadius::same(6)).inner_margin(egui::Margin::same(10)).show(ui, |ui| {
         ui.set_width(ui.available_width());
         let s = &mut app.ai_settings;
-        ui.checkbox(&mut s.enabled, "Use an AI provider for Summarize, Ask and Translate");
+        ui.add(widgets::checkbox(&mut s.enabled, "Use an AI provider for Summarize, Ask and Translate"));
         ui.add_enabled_ui(s.enabled, |ui| {
             egui::Grid::new("ai-provider").num_columns(2).spacing([10.0, 6.0]).show(ui, |ui| {
                 let l = ui.label("Endpoint URL");

@@ -17,17 +17,17 @@ fn settings() -> AiSettings {
 }
 
 /// A provider that records each request and answers `reply` (a chat-completions body or an error).
-fn provider(reply: Result<&'static str, &'static str>, seen: Arc<Mutex<Vec<(String, String, String)>>>) -> AiProvider {
+/// Requests the stand-in provider saw: (endpoint, key, body).
+type Seen = Arc<Mutex<Vec<(String, String, String)>>>;
+
+fn provider(reply: Result<&'static str, &'static str>, seen: Seen) -> AiProvider {
     Arc::new(move |endpoint: &str, key: &str, body: &serde_json::Value| {
         seen.lock().unwrap().push((endpoint.to_string(), key.to_string(), body.to_string()));
         reply.map(str::to_string).map_err(str::to_string)
     })
 }
 
-fn harness(
-    configured: bool,
-    reply: Result<&'static str, &'static str>,
-) -> (Harness<'static, PdfCraftApp>, Arc<Mutex<Vec<(String, String, String)>>>) {
+fn harness(configured: bool, reply: Result<&'static str, &'static str>) -> (Harness<'static, PdfCraftApp>, Seen) {
     let seen = Arc::new(Mutex::new(Vec::new()));
     let p = provider(reply, seen.clone());
     let doc = Session::new().create_from_text("Invoice", TEXT).unwrap().to_vec();
