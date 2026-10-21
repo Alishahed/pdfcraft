@@ -164,3 +164,22 @@ fn settings_are_saved_and_hostile_ones_are_tamed() {
     a.restore(&format!(r#"{{"ai": {{"enabled": true, "base_url": "{}", "model": "m"}}}}"#, "x".repeat(100_000)));
     assert!(a.ai_settings.base_url.len() <= 2_048);
 }
+
+#[test]
+fn answers_are_formatted_as_markdown_with_formulas() {
+    let reply = r###"{"choices":[{"message":{"content":"## Result\n\nThe total is **4,217.50 EUR** and $x^2+1$ holds.\n\n- first point\n- second point\n\n$$\\frac{a}{b}=\\sqrt{2}$$\n\nBroken: $\\notacommand{$"}}]}"###;
+    let (mut h, _) = harness(true, Ok(reply));
+    h.run_steps(4);
+    assert!(h.state_mut().execute("ai.summary"));
+    settle(&mut h);
+    // Markup is interpreted, not shown.
+    h.get_by_label("Result");
+    h.get_by_label("4,217.50 EUR");
+    h.get_by_label("first point");
+    assert!(h.query_by_label_contains("**").is_none());
+    assert!(h.query_by_label_contains("##").is_none());
+    // A formula that can't be typeset falls back to its source instead of failing the answer.
+    h.get_by_label_contains("notacommand");
+    // The raw answer is still what Copy copies.
+    h.get_by_label("Copy answer");
+}

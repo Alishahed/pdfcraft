@@ -306,7 +306,7 @@ pub(crate) fn panel(ui: &mut egui::Ui, t: &Tokens, app_state: PanelState<'_>, id
             ui.add_space(4.0);
             match &e.answer {
                 Ok(text) => {
-                    ui.add(egui::Label::new(text.as_str()).selectable(true).wrap());
+                    crate::ai_md::show(ui, t, text, ("ai-answer", e.doc, &e.label, text.len()));
                     if e.cut {
                         ui.label(
                             egui::RichText::new("The document was too long to send whole; the answer covers its beginning.")

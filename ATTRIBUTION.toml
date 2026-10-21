@@ -2426,6 +2426,18 @@ usage = "egui fallback fonts (eframe feature default_fonts)"
 sha256 = "f426bec371f484646d002717e2c555a95cd5145e635d83a48bbef83f3abf18ca"
 
 [[bundled]]
+crate = "latex-rust"
+version = "2.1.1"
+path = "fonts/stix-two-math/STIXTwoMath-Regular.otf"
+title = "STIX Two Math"
+author = "The STI Pub Companies / STIX Fonts project"
+source = "https://github.com/stipub/stixfonts"
+licence = "OFL-1.1"
+kind = "font"
+usage = "outlines for LaTeX formulas in AI assistant answers (crates/ui-egui/src/ai_md.rs)"
+sha256 = "f2076b9f1676438439dd41e23676f5ab99056e83d6b8f8c27841591ef2ccfa72"
+
+[[bundled]]
 crate = "hayro-cmap"
 version = "0.1.0"
 path = "assets/cmaps.brotli"

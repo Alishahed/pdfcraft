@@ -30,6 +30,7 @@ macro_rules! tl_ctx {
 
 mod a11y_ui;
 mod actions_ui;
+mod ai_md;
 pub mod ai_ui;
 mod appearance;
 pub mod canvas;

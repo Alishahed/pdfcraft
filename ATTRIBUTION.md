@@ -285,7 +285,7 @@ Every asset PdfCraft includes, bundles or uses to build its published material, 
 | `assets/icons/pilcrow.svg` | Lucide icon "pilcrow" | Lucide Contributors (portions Cole Bemis, Feather) | ISC | https://github.com/lucide-icons/lucide (npm lucide-static 1.49.0, icons/pilcrow.svg) | UI icon, embedded via crates/ui-egui/src/icon_data.rs |
 | `assets/icons/move-horizontal.svg` | Lucide icon "move-horizontal" | Lucide Contributors (portions Cole Bemis, Feather) | ISC | https://github.com/lucide-icons/lucide (npm lucide-static 1.49.0, icons/move-horizontal.svg) | UI icon, embedded via crates/ui-egui/src/icon_data.rs |
 
-## Compiled in through dependencies (6)
+## Compiled in through dependencies (7)
 
 | Crate | File | Title | Author | Licence | Source | Used for |
 |---|---|---|---|---|---|---|
@@ -293,6 +293,7 @@ Every asset PdfCraft includes, bundles or uses to build its published material, 
 | `epaint_default_fonts` 0.36.2 | `fonts/Hack-Regular.ttf` | Hack Regular | Source Foundry Authors (derived from Bitstream Vera / DejaVu) | MIT AND Bitstream-Vera | https://github.com/source-foundry/Hack | egui fallback fonts (eframe feature default_fonts) |
 | `epaint_default_fonts` 0.36.2 | `fonts/NotoEmoji-Regular.ttf` | Noto Emoji (monochrome) | Google Inc. | OFL-1.1 | https://github.com/googlefonts/noto-emoji | egui fallback fonts (eframe feature default_fonts) |
 | `epaint_default_fonts` 0.36.2 | `fonts/emoji-icon-font.ttf` | emoji-icon-font | John Slegers | MIT | https://github.com/jslegers/emoji-icon-font | egui fallback fonts (eframe feature default_fonts) |
+| `latex-rust` 2.1.1 | `fonts/stix-two-math/STIXTwoMath-Regular.otf` | STIX Two Math | The STI Pub Companies / STIX Fonts project | OFL-1.1 | https://github.com/stipub/stixfonts | outlines for LaTeX formulas in AI assistant answers (crates/ui-egui/src/ai_md.rs) |
 | `hayro-cmap` 0.1.0 | `assets/cmaps.brotli` | Adobe CMap resources (predefined CJK CMaps) (non-visual data, AGENTS.md §1.1) | Adobe | BSD-3-Clause | https://github.com/adobe-type-tools/cmap-resources (via hayro-cmap) | Character-code mapping tables required to read CJK PDFs. Non-visual data, allowed by AGENTS.md §1.1 |
 | `hayro-interpret` 0.7.0 | `src/font/generated/metrics.rs` | Standard-14 font metrics and encodings (as Rust tables) (non-visual data, AGENTS.md §1.1) | Adobe (Core 14 AFM metrics, PDF specification encodings); tables by The Hayro Authors | MIT OR Apache-2.0 | ISO 32000-2 Annex D; Adobe Core14 AFM files (via vendored hayro-interpret) | Glyph widths and encodings for non-embedded standard fonts. Non-visual data, allowed by AGENTS.md §1.1 |
 
