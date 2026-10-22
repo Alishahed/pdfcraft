@@ -2453,3 +2453,4 @@ animation effects	Off	Ανενεργά
 	Summarize with AI	Σύνοψη με τεχνητή νοημοσύνη
 	Ask AI about this document	Ερώτηση στην τεχνητή νοημοσύνη για αυτό το έγγραφο
 	Translate with AI	Μετάφραση με τεχνητή νοημοσύνη
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	Το κλειδί API θα σταλεί χωρίς κρυπτογράφηση σε αυτή τη διεύθυνση. Χρησιμοποιήστε https://, εκτός αν ο διακομιστής βρίσκεται σε δίκτυο που εμπιστεύεστε.

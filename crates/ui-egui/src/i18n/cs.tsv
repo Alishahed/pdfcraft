@@ -2521,3 +2521,4 @@ animation effects	Off	Vypnuto
 	Summarize with AI	Shrnout pomocí AI
 	Ask AI about this document	Zeptat se AI na tento dokument
 	Translate with AI	Přeložit pomocí AI
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	Klíč API bude na tuto adresu odeslán nešifrovaně. Používejte https://, pokud server neběží v síti, které důvěřujete.

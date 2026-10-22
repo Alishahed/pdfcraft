@@ -2448,3 +2448,4 @@ animation effects	Off	Aus
 	Summarize with AI	Mit KI zusammenfassen
 	Ask AI about this document	KI zu diesem Dokument fragen
 	Translate with AI	Mit KI übersetzen
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	Der API-Schlüssel würde unverschlüsselt an diese Adresse gesendet. Verwende https://, außer der Server steht in einem Netzwerk, dem du vertraust.

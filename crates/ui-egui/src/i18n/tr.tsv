@@ -2443,3 +2443,4 @@ animation effects	Off	Kapalı
 	Summarize with AI	Yapay zekayla özetle
 	Ask AI about this document	Bu belge hakkında yapay zekaya sor
 	Translate with AI	Yapay zekayla çevir
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	API anahtarı bu adrese şifrelenmeden gönderilir. Sunucu güvendiğin bir ağda değilse https:// kullan.

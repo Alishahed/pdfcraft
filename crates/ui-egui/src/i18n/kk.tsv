@@ -2445,3 +2445,4 @@ animation effects	Off	Өшірулі
 	Summarize with AI	ЖИ арқылы түйіндеу
 	Ask AI about this document	Осы құжат туралы ЖИ-ден сұрау
 	Translate with AI	ЖИ арқылы аудару
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	API кілті осы мекенжайға шифрланбай жіберіледі. Сервер сенімді желіде болмаса, https:// пайдаланыңыз.

@@ -183,3 +183,33 @@ fn answers_are_formatted_as_markdown_with_formulas() {
     // The raw answer is still what Copy copies.
     h.get_by_label("Copy answer");
 }
+
+#[test]
+fn a_pdf_that_forbids_copying_is_never_sent() {
+    let seen = Arc::new(Mutex::new(Vec::new()));
+    let p = provider(Ok(ANSWER), seen.clone());
+    let plain = Session::new().create_from_text("Invoice", TEXT).unwrap().to_vec();
+    let mut doc = pdfcraft_cos::Document::open(Arc::new(plain)).unwrap();
+    doc.set_encryption(&pdfcraft_cos::NewEncryption {
+        algorithm: pdfcraft_cos::Algorithm::Aes256,
+        user_password: "",
+        owner_password: "owner",
+        permissions: 0b0100, // printing only: no copying
+        encrypt_metadata: true,
+        seed: [5; 32],
+    })
+    .unwrap();
+    let restricted = pdfcraft_cos::write_full(&doc, &Default::default()).unwrap();
+    let mut h = Harness::builder().with_size(egui::vec2(1400.0, 900.0)).build_eframe(move |_cc| {
+        let mut app = PdfCraftApp::new();
+        app.ai_provider = Some(p.clone());
+        app.ai_settings = settings();
+        app.open_bytes("restricted.pdf", None, restricted.clone()).unwrap();
+        app
+    });
+    h.run_steps(4);
+    // The command is unavailable, and the panel's own entry point refuses as well.
+    assert!(!h.state_mut().execute("ai.summary"));
+    h.run_steps(3);
+    assert!(seen.lock().unwrap().is_empty(), "no document text leaves the app");
+}

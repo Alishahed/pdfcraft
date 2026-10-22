@@ -2447,3 +2447,4 @@ animation effects	Off	Désactivés
 	Summarize with AI	Résumer avec l'IA
 	Ask AI about this document	Interroger l'IA sur ce document
 	Translate with AI	Traduire avec l'IA
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	La clé d'API serait envoyée sans chiffrement à cette adresse. Utilise https:// sauf si le serveur est sur un réseau de confiance.

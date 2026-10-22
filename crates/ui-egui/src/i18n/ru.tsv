@@ -2360,3 +2360,4 @@ animation effects	Off	Выкл
 	Summarize with AI	Суммировать с помощью AI
 	Ask AI about this document	Спросить AI об этом документе
 	Translate with AI	Перевести с помощью AI
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	Ключ API будет отправлен на этот адрес без шифрования. Используйте https://, если сервер не находится в доверенной сети.

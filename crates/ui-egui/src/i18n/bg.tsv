@@ -2410,3 +2410,4 @@ animation effects	Off	Изключени
 	Summarize with AI	Обобщи с AI
 	Ask AI about this document	Попитай AI за този документ
 	Translate with AI	Преведи с AI
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	API ключът ще бъде изпратен към този адрес без криптиране. Използвайте https://, освен ако сървърът не е в мрежа, на която имате доверие.

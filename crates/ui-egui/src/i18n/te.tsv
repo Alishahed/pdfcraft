@@ -2356,3 +2356,4 @@ animation effects	Off	ఆఫ్
 	Summarize with AI	AI తో సారాంశం రూపొందించు
 	Ask AI about this document	ఈ పత్రం గురించి AIని అడుగు
 	Translate with AI	AI తో అనువదించు
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	API కీ ఈ చిరునామాకు ఎన్‌క్రిప్షన్ లేకుండా పంపబడుతుంది. సర్వర్ మీరు విశ్వసించే నెట్‌వర్క్‌లో లేకపోతే https:// ఉపయోగించండి.

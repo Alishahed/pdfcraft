@@ -52,6 +52,27 @@ impl AiSettings {
         Ok(format!("{base}/chat/completions"))
     }
 
+    /// Whether the API key would travel unencrypted: a key is set and the endpoint is plain
+    /// `http://` to a host other than this computer. Such endpoints (a model on the local
+    /// network) still work; Preferences warns about them.
+    pub fn sends_key_unencrypted(&self) -> bool {
+        let base = self.base_url.trim();
+        let Some(rest) = base.strip_prefix("http://") else { return false };
+        if self.api_key.trim().is_empty() {
+            return false;
+        }
+        let authority = rest.split('/').next().unwrap_or("");
+        let authority = authority.rsplit('@').next().unwrap_or("");
+        let host = match authority.strip_prefix('[') {
+            Some(v6) => v6.split(']').next().unwrap_or(""),
+            None => authority.split(':').next().unwrap_or(""),
+        };
+        let loopback = host.eq_ignore_ascii_case("localhost")
+            || host.to_ascii_lowercase().ends_with(".localhost")
+            || host.parse::<std::net::IpAddr>().is_ok_and(|ip| ip.is_loopback());
+        !loopback
+    }
+
     /// Settings read from an untrusted settings file: lengths capped.
     pub fn sanitized(mut self) -> Self {
         for s in [&mut self.base_url, &mut self.model, &mut self.api_key] {
@@ -228,6 +249,21 @@ mod tests {
         assert!(settings("http://localhost:11434/v1").is_ready());
         assert!(!AiSettings { enabled: false, ..settings("http://localhost/v1") }.is_ready());
         assert!(!AiSettings { model: " ".into(), ..settings("http://localhost/v1") }.is_ready());
+    }
+
+    #[test]
+    fn a_key_over_plain_http_to_another_host_is_flagged() {
+        let with_key = |url: &str| AiSettings { api_key: "sk-test".into(), ..settings(url) };
+        for flagged in ["http://192.0.2.10:8000/v1", "http://llm.lan/v1", "http://user@example.com/v1"] {
+            assert!(with_key(flagged).sends_key_unencrypted(), "{flagged}");
+        }
+        for fine in
+            ["http://localhost:11434/v1", "http://127.0.0.1:8080/v1", "http://[::1]:8080/v1", "http://api.localhost/v1", "https://example.com/v1"]
+        {
+            assert!(!with_key(fine).sends_key_unencrypted(), "{fine}");
+        }
+        // Without a key there is nothing to expose.
+        assert!(!settings("http://192.0.2.10:8000/v1").sends_key_unencrypted());
     }
 
     #[test]

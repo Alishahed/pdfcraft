@@ -2411,3 +2411,4 @@ animation effects	Off	关
 	Summarize with AI	用 AI 摘要
 	Ask AI about this document	就本文档询问 AI
 	Translate with AI	用 AI 翻译
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	API 密钥将以未加密方式发送到此地址。除非服务器位于你信任的网络中，否则请使用 https://。

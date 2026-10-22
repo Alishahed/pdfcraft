@@ -2446,3 +2446,4 @@ animation effects	Off	Ki
 	Summarize with AI	Összefoglalás MI-vel
 	Ask AI about this document	Kérdezd az MI-t erről a dokumentumról
 	Translate with AI	Fordítás MI-vel
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	Az API-kulcs titkosítatlanul kerülne elküldésre erre a címre. Használj https://-t, hacsak a szerver nem egy megbízható hálózaton van.

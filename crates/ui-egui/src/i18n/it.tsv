@@ -2659,3 +2659,4 @@ certificate	SHA-256 digest	Impronta SHA-256
 	Summarize with AI	Riepiloga con IA
 	Ask AI about this document	Chiedi all'IA di questo documento
 	Translate with AI	Traduci con IA
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	La chiave API verrebbe inviata non cifrata a questo indirizzo. Usa https:// a meno che il server non sia in una rete di cui ti fidi.

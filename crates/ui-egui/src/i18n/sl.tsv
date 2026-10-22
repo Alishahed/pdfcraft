@@ -2452,3 +2452,4 @@ animation effects	Off	Izklopljeni
 	Summarize with AI	Povzemi z UI
 	Ask AI about this document	Vprašaj UI o tem dokumentu
 	Translate with AI	Prevedi z UI
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	Ključ API bi bil na ta naslov poslan nešifriran. Uporabite https://, razen če je strežnik v omrežju, ki mu zaupate.

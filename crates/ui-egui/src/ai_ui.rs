@@ -88,6 +88,11 @@ impl PdfCraftApp {
             self.notify("The assistant is still answering");
             return;
         }
+        // The document text leaves the app, so the PDF's security must allow copying it out.
+        if !self.session.get(id).is_some_and(|d| d.allows_copying()) {
+            self.notify(crate::copy_refused());
+            return;
+        }
         let settings = self.ai_settings.clone();
         let endpoint = match settings.endpoint() {
             Ok(e) if settings.is_ready() => e,
@@ -377,6 +382,15 @@ pub(crate) fn preferences(ui: &mut egui::Ui, app: &mut PdfCraftApp, t: &Tokens) 
                 && let Err(e) = s.endpoint()
             {
                 ui.label(egui::RichText::new(e).small().color(ui.visuals().error_fg_color));
+            }
+            if s.enabled && s.sends_key_unencrypted() {
+                ui.label(
+                    egui::RichText::new(tl!(
+                        "The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust."
+                    ))
+                    .small()
+                    .color(ui.visuals().warn_fg_color),
+                );
             }
         });
         ui.label(

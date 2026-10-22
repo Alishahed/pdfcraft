@@ -92,10 +92,39 @@ pub(crate) fn normalize_math(src: &str) -> String {
                 out.push('`');
             }
             if i % 2 == 0 {
-                out.push_str(&seg.replace("\\[", "$$").replace("\\]", "$$").replace("\\(", "$").replace("\\)", "$"));
+                out.push_str(&rewrite_delimiters(seg));
             } else {
                 out.push_str(seg);
             }
+        }
+    }
+    out
+}
+
+/// `\(` `\)` → `$`, `\[` `\]` → `$$`, except where the backslash is itself escaped: the line
+/// break `\\[4pt]` in an aligned formula keeps its `\\`.
+fn rewrite_delimiters(seg: &str) -> String {
+    let mut out = String::with_capacity(seg.len());
+    let mut chars = seg.chars().peekable();
+    while let Some(c) = chars.next() {
+        if c != '\\' {
+            out.push(c);
+            continue;
+        }
+        match chars.peek().copied() {
+            Some('\\') => {
+                out.push_str("\\\\");
+                chars.next();
+            }
+            Some('[' | ']') => {
+                out.push_str("$$");
+                chars.next();
+            }
+            Some('(' | ')') => {
+                out.push('$');
+                chars.next();
+            }
+            _ => out.push('\\'),
         }
     }
     out
@@ -566,6 +595,9 @@ mod tests {
     fn normalizes_latex_delimiters_but_not_code() {
         assert_eq!(normalize_math(r"so \(x^2\) and \[y\]"), "so $x^2$ and $$y$$");
         assert_eq!(normalize_math("`\\(x\\)` ok"), "`\\(x\\)` ok");
+        // A spaced line break inside a formula is not a delimiter.
+        assert_eq!(normalize_math(r"\[a \\[4pt] b\]"), r"$$a \\[4pt] b$$");
+        assert_eq!(normalize_math(r"\(a\)\\(b\)"), r"$a$\\(b$");
         assert_eq!(normalize_math("```\n\\(x\\)\n```\n\\(y\\)"), "```\n\\(x\\)\n```\n$y$");
     }
 

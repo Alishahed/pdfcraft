@@ -2723,3 +2723,4 @@ certificate	Version	الإصدار
 	Summarize with AI	التلخيص بالذكاء الاصطناعي
 	Ask AI about this document	اسأل الذكاء الاصطناعي عن هذا المستند
 	Translate with AI	الترجمة بالذكاء الاصطناعي
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	سيُرسَل مفتاح API إلى هذا العنوان دون تشفير. استخدم https:// ما لم يكن الخادم على شبكة تثق بها.

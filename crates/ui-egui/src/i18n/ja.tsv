@@ -2447,3 +2447,4 @@ animation effects	Off	オフ
 	Summarize with AI	AI で要約
 	Ask AI about this document	この文書について AI に質問
 	Translate with AI	AI で翻訳
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	API キーは暗号化されずにこのアドレスへ送信されます。サーバーが信頼できるネットワーク内にある場合を除き、https:// を使用してください。

@@ -2699,3 +2699,4 @@ key	Space	Space
 	Summarize with AI	Tóm tắt bằng AI
 	Ask AI about this document	Hỏi AI về tài liệu này
 	Translate with AI	Dịch bằng AI
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	Khóa API sẽ được gửi đến địa chỉ này mà không mã hóa. Hãy dùng https:// trừ khi máy chủ nằm trong mạng bạn tin cậy.

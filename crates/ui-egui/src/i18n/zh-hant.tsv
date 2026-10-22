@@ -2397,3 +2397,4 @@ animation effects	Off	關
 	Summarize with AI	用 AI 摘要
 	Ask AI about this document	就此文件詢問 AI
 	Translate with AI	用 AI 翻譯
+	The API key would be sent unencrypted to this address. Use https:// unless the server is on a network you trust.	API 金鑰將以未加密方式傳送到此位址。除非伺服器位於你信任的網路中，否則請使用 https://。
